@@ -11,7 +11,8 @@ import {
   X,
 } from 'lucide-react';
 
-const PollClient = ({ slug }) => {
+const PollClient = ({ slug: initialSlug }) => {
+  const [slug, setSlug] = useState(initialSlug);
   const [loading, setLoading] = useState(true);
   const [pollData, setPollData] = useState(null);
   const [voterToken, setVoterToken] = useState('');
@@ -20,13 +21,28 @@ const PollClient = ({ slug }) => {
   const [voterName, setVoterName] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
 
+  // Extract the real slug from the URL if we are on the placeholder 'voter' page
   useEffect(() => {
-    // Deep link redirection attempt for mobile devices
-    if (slug && slug !== 'voter') { // Don't redirect if it's just the build placeholder
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      if (isMobile) {
-        window.location.href = `minmini://vote?slug=${slug}`;
+    if (initialSlug === 'voter' && typeof window !== 'undefined') {
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const pollIndex = pathParts.indexOf('poll');
+      // If URL is .../poll/actual-slug/
+      if (pollIndex !== -1 && pathParts[pollIndex + 1]) {
+        setSlug(pathParts[pollIndex + 1]);
       }
+    } else {
+      setSlug(initialSlug);
+    }
+  }, [initialSlug]);
+
+  useEffect(() => {
+    // Only proceed if we have a real slug (not the build-time placeholder)
+    if (!slug || slug === 'voter') return;
+
+    // Deep link redirection attempt for mobile devices
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+      window.location.href = `minmini://vote?slug=${slug}`;
     }
 
     // Handle voter token
@@ -37,15 +53,13 @@ const PollClient = ({ slug }) => {
     }
     setVoterToken(token);
 
-    if (slug) {
-      fetchPollData(token);
-    }
+    fetchPollData(token, slug);
   }, [slug]);
 
-  const fetchPollData = async (token) => {
+  const fetchPollData = async (token, currentSlug) => {
     try {
       const response = await fetch(
-        `https://dxuncmzjsywqjkgpcrtt.supabase.co/functions/v1/poll?slug=${slug}`,
+        `https://dxuncmzjsywqjkgpcrtt.supabase.co/functions/v1/poll?slug=${currentSlug}`,
         {
           headers: {
             'x-voter-token': token,
@@ -55,7 +69,7 @@ const PollClient = ({ slug }) => {
       const data = await response.json();
       if (data.success) {
         setPollData(data);
-        setVoterName(data.voter_name);
+        setVoterName(data.voter_name || '');
         // Pre-select if already voted
         const alreadySelected = data.options.find((o) => o.selected);
         if (alreadySelected) {
@@ -93,7 +107,6 @@ const PollClient = ({ slug }) => {
       );
       const data = await response.json();
       if (data.success) {
-        // Use the response data directly to update the UI with percentages
         setPollData(data);
       } else {
         setErrorMsg(data.message || 'Voting failed. Please try again.');
