@@ -76,7 +76,7 @@ jobs:
       - name: Build with Next.js
         run: |
           ${{ steps.detect-package-manager.outputs.runner }} next build
-          cp out/index.html out/404.html
+          cp out/poll/voter/index.html out/404.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
