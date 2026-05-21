@@ -22,10 +22,9 @@ const PollClient = ({ slug }) => {
 
   useEffect(() => {
     // Deep link redirection attempt for mobile devices
-    if (slug) {
+    if (slug && slug !== 'voter') { // Don't redirect if it's just the build placeholder
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (isMobile) {
-        // Attempt to open the app via deep link
         window.location.href = `minmini://vote?slug=${slug}`;
       }
     }
