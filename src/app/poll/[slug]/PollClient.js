@@ -87,6 +87,11 @@ const PollClient = ({ slug: initialSlug }) => {
   };
 
   const handleVote = async () => {
+    if (!voterName.trim()) {
+      setErrorMsg('Please enter your name to cast your vote.');
+      return;
+    }
+
     if (!selectedOption || isVoting || pollData?.has_voted) return;
 
     setIsVoting(true);
@@ -101,7 +106,7 @@ const PollClient = ({ slug: initialSlug }) => {
           },
           body: JSON.stringify({
             option_ids: [selectedOption],
-            voter_name: voterName,
+            voter_name: voterName.trim(),
           }),
         }
       );
@@ -184,12 +189,27 @@ const PollClient = ({ slug: initialSlug }) => {
     return colors[index % colors.length];
   };
 
+  const normalizeName = (name) => {
+    if (!name) return '';
+    return name
+      .toLowerCase()
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   return (
     <div className="poll-page">
       <header className="poll-header">
         <div className="container header-inner">
           <div className="logo">
-            <img src="/assets/images/logo.png" alt="Minmini" width={44} height={44} />
+            <img
+              src="/assets/images/logo.png"
+              alt="Minmini"
+              width={44}
+              height={44}
+              className="logo-img"
+            />
             <div className="logo-text">
               <span className="brand-name">Minmini</span>
               <span className="brand-sub">Tamil Baby Names</span>
@@ -202,7 +222,7 @@ const PollClient = ({ slug: initialSlug }) => {
               Tamil baby names
             </span>
             <button className="btn-download-app">
-              <Download size={16} /> Download App
+              <Download size={16} className="dl-icon" /> Download App
             </button>
           </div>
         </div>
@@ -212,7 +232,7 @@ const PollClient = ({ slug: initialSlug }) => {
         <div className="poll-card">
           <div className="poll-header-info">
             <div className="poll-icon-wrapper">
-              <BarChart2 size={24} color="#FF4D8D" />
+              <BarChart2 size={24} color="#FF4D8D" className="header-icon" />
             </div>
             <div className="poll-title-meta">
               <h1>{poll.title}</h1>
@@ -230,7 +250,9 @@ const PollClient = ({ slug: initialSlug }) => {
           <p className="help-text">Help us choose the perfect name for our little one! ❤️</p>
 
           <div className="form-group">
-            <label className="input-label">Your Name</label>
+            <label className="input-label">
+              Your Name <span className="required-star">*</span>
+            </label>
             <input
               type="text"
               className="name-input"
@@ -262,7 +284,7 @@ const PollClient = ({ slug: initialSlug }) => {
                   </div>
                   <div className="option-names">
                     <span className="tamil-name">{option.data.name_ta}</span>
-                    <span className="english-name">{option.data.name_en}</span>
+                    <span className="english-name">{normalizeName(option.data.name_en)}</span>
                   </div>
                 </div>
 
@@ -289,14 +311,19 @@ const PollClient = ({ slug: initialSlug }) => {
           </div>
 
           <button
-            className={`btn-cast-vote ${!selectedOption || has_voted || isVoting ? 'btn-disabled' : ''}`}
+            className={`btn-cast-vote ${!selectedOption || !voterName.trim() || has_voted || isVoting ? 'btn-disabled' : ''}`}
             onClick={handleVote}
           >
             {isVoting ? (
               <div className="vote-loader"></div>
             ) : (
               <>
-                <Heart size={20} fill={has_voted ? 'white' : 'none'} stroke="white" />
+                <Heart
+                  size={20}
+                  fill={has_voted ? 'white' : 'none'}
+                  stroke="white"
+                  className="heart-icon"
+                />
                 <span>{has_voted ? 'Voted' : 'Cast Your Vote'}</span>
               </>
             )}
@@ -310,7 +337,7 @@ const PollClient = ({ slug: initialSlug }) => {
               <h3>Discover thousands of beautiful Tamil baby names</h3>
               <div className="feature-badges">
                 <span className="f-badge">
-                  <CheckCircle2 size={12} /> Easy to use
+                  <CheckCircle2 size={12} className="f-icon" /> Easy to use
                 </span>
                 <span className="f-dot">•</span>
                 <span className="f-badge">Trusted by parents</span>
@@ -320,14 +347,14 @@ const PollClient = ({ slug: initialSlug }) => {
             </div>
           </div>
           <button className="btn-download-app-outline">
-            <Download size={14} /> Download App
+            <Download size={14} className="dl-icon-small" /> Download App
           </button>
         </div>
 
         <div className="poll-page-footer">
           <div className="trust-badges">
             <span className="trust-item">
-              <ShieldCheck size={16} /> 100% Private & Secure
+              <ShieldCheck size={16} className="trust-icon" /> 100% Private & Secure
             </span>
             <span className="trust-sep">•</span>
             <span className="trust-item">No sign-up required to vote</span>
@@ -510,6 +537,10 @@ const PollClient = ({ slug: initialSlug }) => {
           font-weight: 700;
           color: #ff4d8d;
           margin-bottom: 12px;
+        }
+        .required-star {
+          color: #ff4d4d;
+          margin-left: 2px;
         }
         .name-input {
           width: 100%;
@@ -881,37 +912,207 @@ const PollClient = ({ slug: initialSlug }) => {
         }
 
         @media (max-width: 600px) {
+          .poll-header {
+            padding: 15px 0;
+          }
           .header-inner {
             padding: 0 15px;
           }
+          .logo {
+            gap: 8px;
+          }
+          .logo-img {
+            width: 32px !important;
+            height: 32px !important;
+          }
           .brand-name {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
+          }
+          .brand-sub {
+            font-size: 0.65rem;
           }
           .explore-text {
             display: none;
           }
+          .btn-download-app {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            gap: 5px;
+          }
+          :global(.dl-icon) {
+            width: 14px !important;
+            height: 14px !important;
+          }
+
           .main-content {
-            margin: 20px auto;
+            margin: 15px auto;
+            padding: 0 12px 40px;
           }
           .poll-card {
-            padding: 25px 20px;
+            padding: 20px 16px;
+            border-radius: 20px;
+            margin-bottom: 15px;
           }
           .poll-header-info {
-            gap: 15px;
+            gap: 12px;
+            margin-bottom: 15px;
+          }
+          .poll-icon-wrapper {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+          }
+          :global(.header-icon) {
+            width: 18px !important;
+            height: 18px !important;
           }
           .poll-title-meta h1 {
-            font-size: 1.3rem;
+            font-size: 1.15rem;
+            margin-bottom: 4px;
           }
+          .meta-row {
+            font-size: 0.75rem;
+            gap: 6px;
+          }
+          .active-badge {
+            padding: 3px 8px;
+            font-size: 0.65rem;
+          }
+          .badge-dot {
+            width: 5px;
+            height: 5px;
+          }
+
+          .help-text {
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+          }
+
+          .form-group {
+            margin-bottom: 20px;
+          }
+          .input-label {
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+          }
+          .name-input {
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            border-radius: 10px;
+          }
+
+          .instruction-text {
+            font-size: 0.8rem;
+            margin-bottom: 12px;
+          }
+
+          .options-container {
+            gap: 8px;
+            margin-bottom: 25px;
+          }
+          .option-card {
+            padding: 12px 14px;
+            border-radius: 15px;
+          }
+          .option-content {
+            gap: 12px;
+          }
+          .option-icon {
+            width: 34px;
+            height: 34px;
+            font-size: 1rem;
+            border-radius: 8px;
+          }
+          .tamil-name {
+            font-size: 0.95rem;
+          }
+          .english-name {
+            font-size: 0.75rem;
+          }
+          .radio-outer {
+            width: 18px;
+            height: 18px;
+          }
+          .radio-inner {
+            width: 8px;
+            height: 8px;
+          }
+
+          .vote-stats {
+            margin-left: 12px;
+            gap: 10px;
+          }
+          .progress-bg {
+            height: 8px;
+          }
+          .percentage-text {
+            font-size: 0.8rem;
+            min-width: 35px;
+          }
+
+          .btn-cast-vote {
+            padding: 14px;
+            font-size: 0.95rem;
+            border-radius: 15px;
+            min-height: 50px;
+            gap: 8px;
+          }
+          :global(.heart-icon) {
+            width: 16px !important;
+            height: 16px !important;
+          }
+
           .app-promo-banner {
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             text-align: center;
+            padding: 15px;
+            border-radius: 18px;
           }
           .promo-left {
             flex-direction: column;
+            gap: 10px;
+          }
+          .preview-img {
+            width: 40px;
+            height: 60px;
           }
           .promo-info h3 {
+            font-size: 0.85rem;
             max-width: 100%;
+            margin-bottom: 6px;
+          }
+          .feature-badges {
+            justify-content: center;
+            gap: 6px;
+          }
+          .f-badge {
+            font-size: 0.65rem;
+          }
+          .btn-download-app-outline {
+            width: 100%;
+            justify-content: center;
+            padding: 10px;
+            font-size: 0.75rem;
+          }
+
+          .poll-page-footer {
+            margin-top: 30px;
+          }
+          .trust-badges {
+            flex-wrap: wrap;
+            gap: 8px;
+          }
+          .trust-item {
+            font-size: 0.75rem;
+          }
+          :global(.trust-icon) {
+            width: 14px !important;
+            height: 14px !important;
+          }
+          .copy-text {
+            font-size: 0.7rem;
           }
         }
       `}</style>
