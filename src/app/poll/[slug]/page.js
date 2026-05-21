@@ -9,7 +9,7 @@ import PollClient from './PollClient';
  * for all paths matching /poll/*.
  */
 export function generateStaticParams() {
-  return [{ slug: '1aa5614eab32' }];
+  return [{ slug: 'voter' }];
 }
 
 export default function Page({ params: paramsPromise }) {
