@@ -198,6 +198,23 @@ const PollClient = ({ slug: initialSlug }) => {
       .join(' ');
   };
 
+  const calculateExpiryDays = (expiresAt) => {
+    if (!expiresAt) return null;
+    const expiryDate = new Date(expiresAt);
+    const today = new Date();
+
+    // Normalize both to midnight to compare only dates
+    expiryDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const diffTime = expiryDate.getTime() - today.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
+  const expiryDays = calculateExpiryDays(poll.expires_at);
+  const isExpired = expiryDays !== null && expiryDays < 0;
+
   return (
     <div className="poll-page">
       <header className="poll-header">
@@ -237,17 +254,21 @@ const PollClient = ({ slug: initialSlug }) => {
             <div className="poll-title-meta">
               <h1>{poll.title}</h1>
               <div className="meta-row">
-                <span>Ends in 2d</span>
+                <span>
+                  {expiryDays === null ? 'No expiry' :
+                   expiryDays > 0 ? `Ends in ${expiryDays}d` :
+                   expiryDays === 0 ? 'Ends today' : 'Expired'}
+                </span>
                 <span className="separator">•</span>
                 <span>Created by {created_by}</span>
               </div>
             </div>
-            <div className="active-badge">
-              <span className="badge-dot"></span> Active
+            <div className={`active-badge ${isExpired ? 'expired' : ''}`}>
+              <span className={`badge-dot ${isExpired ? 'expired-dot' : ''}`}></span> {isExpired ? 'Expired' : 'Active'}
             </div>
           </div>
 
-          <p className="help-text">Help us choose the perfect name for our little one! ❤️</p>
+          <p className="help-text">{poll.description || 'Help us choose the perfect name for our little one! ❤️'}</p>
 
           <div className="form-group">
             <label className="input-label">
@@ -259,18 +280,20 @@ const PollClient = ({ slug: initialSlug }) => {
               placeholder="Enter your name"
               value={voterName}
               onChange={(e) => setVoterName(e.target.value)}
-              disabled={has_voted}
+              disabled={has_voted || isExpired}
             />
           </div>
 
-          <p className="instruction-text">Tap to vote for your favorite name ✨</p>
+          <p className="instruction-text">
+            {isExpired ? 'Voting has ended for this poll' : 'Tap to vote for your favorite name ✨'}
+          </p>
 
           <div className="options-container">
             {options.map((option, index) => (
               <div
                 key={option.option_id}
-                className={`option-card ${selectedOption === option.option_id ? 'active' : ''} ${has_voted ? 'disabled' : ''}`}
-                onClick={() => !has_voted && setSelectedOption(option.option_id)}
+                className={`option-card ${selectedOption === option.option_id ? 'active' : ''} ${has_voted || isExpired ? 'disabled' : ''}`}
+                onClick={() => !has_voted && !isExpired && setSelectedOption(option.option_id)}
               >
                 <div className="option-content">
                   <div
@@ -311,7 +334,7 @@ const PollClient = ({ slug: initialSlug }) => {
           </div>
 
           <button
-            className={`btn-cast-vote ${!selectedOption || !voterName.trim() || has_voted || isVoting ? 'btn-disabled' : ''}`}
+            className={`btn-cast-vote ${!selectedOption || !voterName.trim() || has_voted || isVoting || isExpired ? 'btn-disabled' : ''}`}
             onClick={handleVote}
           >
             {isVoting ? (
@@ -324,7 +347,7 @@ const PollClient = ({ slug: initialSlug }) => {
                   stroke="white"
                   className="heart-icon"
                 />
-                <span>{has_voted ? 'Voted' : 'Cast Your Vote'}</span>
+                <span>{has_voted ? 'Voted' : isExpired ? 'Poll Expired' : 'Cast Your Vote'}</span>
               </>
             )}
           </button>
@@ -514,11 +537,18 @@ const PollClient = ({ slug: initialSlug }) => {
           gap: 6px;
           white-space: nowrap;
         }
+        .active-badge.expired {
+          background: #fff5f5;
+          color: #e53e3e;
+        }
         .badge-dot {
           width: 7px;
           height: 7px;
           background: #38a169;
           border-radius: 50%;
+        }
+        .badge-dot.expired-dot {
+          background: #e53e3e;
         }
 
         .help-text {
@@ -590,6 +620,9 @@ const PollClient = ({ slug: initialSlug }) => {
         .option-card.active {
           border-color: #ff4d8d;
           background: #fff8fa;
+        }
+        .option-card.disabled {
+          cursor: default;
         }
         .option-content {
           display: flex;
@@ -1025,7 +1058,7 @@ const PollClient = ({ slug: initialSlug }) => {
             border-radius: 8px;
           }
           .tamil-name {
-            font-size: 0.95rem;
+            font-size: 0.8rem;
           }
           .english-name {
             font-size: 0.75rem;
