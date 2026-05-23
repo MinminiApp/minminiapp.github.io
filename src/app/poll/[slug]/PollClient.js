@@ -283,8 +283,8 @@ const PollClient = ({ slug: initialSlug }) => {
                     {getOptionIcon(index)}
                   </div>
                   <div className="option-names">
-                    <span className="tamil-name">{option.data.name_ta}</span>
-                    <span className="english-name">{normalizeName(option.data.name_en)}</span>
+                    <span className="tamil-name">{option.item_type == 'twin' ? option.data.twin_names_ta.join(' & ') : option.data.name_ta}</span>
+                    <span className="english-name">{option.item_type == 'twin' ? normalizeName(option.data.twin_names_en.join(' & ')) : normalizeName(option.data.name_en)}</span>
                   </div>
                 </div>
 
