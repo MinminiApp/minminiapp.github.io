@@ -13,12 +13,12 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  // Get the base URL from environment or default to localhost
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const baseUrl = 'https://minminiapp.github.io';
   const { slug } = params;
   
-  // Create absolute URL for OG image
-  const imageUrl = `${baseUrl}/assets/images/poll_screen.png`;
+  // Use dynamic OG image generation service (works with all slugs)
+  // The og-image service will generate an image based on the URL parameters
+  const imageUrl = `https://og-image.vercel.app/Minmini%20Poll%20%7C%20${encodeURIComponent(slug)}.png?theme=light&md=1&fontSize=100px&images=https%3A%2F%2Fminminiapp.github.io%2Fassets%2Fimages%2Fpoll_screen.png`;
   
   return {
     title: 'Minmini Poll',
