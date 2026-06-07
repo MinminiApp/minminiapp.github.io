@@ -15,11 +15,11 @@ export function generateStaticParams() {
 export const metadata = {
   title: 'Minmini Poll',
   description:
-    'Choose the perfect Tamil baby name in this Minmini poll. Share it on WhatsApp, Telegram, or any social network.',
+    'Vote for your favorite baby name and see live results instantly.',
   openGraph: {
     images: [
       {
-        url: 'https://github.com/MinminiApp/minminiapp.github.io/blob/main/public/assets/images/poll_screen.png',
+        url: 'https://minminiapp.github.io/assets/images/poll_screen.png',
         alt: 'Minmini poll screenshot',
         width: 1200,
         height: 630,
@@ -29,7 +29,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     images: [
-      'https://github.com/MinminiApp/minminiapp.github.io/blob/main/public/assets/images/poll_screen.png',
+      'https://minminiapp.github.io/assets/images/poll_screen.png',
     ],
   },
 };
