@@ -9,7 +9,29 @@ import PollClient from './PollClient';
  * for all paths matching /poll/*.
  */
 export function generateStaticParams() {
-  return [{ slug: 'voter' }];
+  return [{ slug: 'fc71e3cccd33' }];
+}
+
+export async function generateMetadata() {
+  return {
+    title: 'Minmini Poll',
+    description: 'Choose the perfect Tamil baby name in this Minmini poll. Share it on WhatsApp, Telegram, or any social network.',
+    openGraph: {
+      title: 'Minmini Poll',
+      description: 'Choose the perfect Tamil baby name in this Minmini poll. Share it on WhatsApp, Telegram, or any social network.',
+      type: 'website',
+      images: [
+        {
+          url: '/assets/images/poll_screen.png',
+          alt: 'Minmini poll screenshot',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      images: ['/assets/images/poll_screen.png'],
+    },
+  };
 }
 
 export default function Page({ params: paramsPromise }) {
