@@ -19,7 +19,7 @@ export const metadata = {
   openGraph: {
     images: [
       {
-        url: 'https://minminiapp.github.io/assets/images/poll_screen.png',
+        url: 'https://minminii.app/assets/images/poll_screen.png',
         alt: 'Minmini poll screenshot',
         width: 1200,
         height: 630,
@@ -29,7 +29,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     images: [
-      'https://minminiapp.github.io/assets/images/poll_screen.png',
+      'https://minminii.app/assets/images/poll_screen.png',
     ],
   },
 };
