@@ -7,21 +7,21 @@ const reviews = [
     text: 'Minmini helped us find the perfect name for our baby girl. The app is easy to use and has so many beautiful names!',
     author: 'Priya S.',
     location: 'Chennai',
-    image: 'https://i.pravatar.cc/100?img=5',
+    image: '/assets/images/avatars/avatar_2.png',
     rating: 5,
   },
   {
     text: 'Love the poll feature! We got opinions from our entire family and chose the best name together.',
     author: 'Karthik R.',
     location: 'Coimbatore',
-    image: 'https://i.pravatar.cc/100?img=6',
+    image: '/assets/images/avatars/avatar_1.png',
     rating: 5,
   },
   {
     text: 'Very good collection of Tamil names with meanings. Highly recommended for all new parents!',
     author: 'Meena L.',
     location: 'Madurai',
-    image: 'https://i.pravatar.cc/100?img=7',
+    image: '/assets/images/avatars/avatar_3.png',
     rating: 5,
   },
 ];
@@ -32,10 +32,10 @@ const Reviews = () => {
       <div className="container">
         <h2 className="section-subtitle">What Parents Are Saying 💖</h2>
 
-        <div className="grid-cols-3">
+        <div className="reviews-grid">
           {reviews.map((r, i) => (
             <div key={i} className="review-card">
-              <div className="quote-mark">“</div>
+              <div className="quote-mark">"</div>
               <div className="stars">
                 {[...Array(r.rating)].map((_, idx) => (
                   <Star key={idx} size={16} fill="#FFB800" color="#FFB800" />
@@ -52,18 +52,17 @@ const Reviews = () => {
             </div>
           ))}
         </div>
-
-        <div className="dots">
-          <span className="dot active"></span>
-          <span className="dot"></span>
-          <span className="dot"></span>
-          <span className="dot"></span>
-        </div>
       </div>
 
       <style jsx>{`
         .reviews {
           background-color: var(--white);
+        }
+        .reviews-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 30px;
+          margin-bottom: 40px;
         }
         .review-card {
           padding: 40px;
@@ -119,22 +118,57 @@ const Reviews = () => {
           font-size: 0.8rem;
           color: var(--text-muted);
         }
-        .dots {
-          display: flex;
-          justify-content: center;
-          gap: 8px;
-          margin-top: 40px;
+
+        @media (max-width: 992px) {
+          .reviews-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+          }
         }
-        .dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #eee;
+
+        @media (max-width: 768px) {
+          .reviews-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+          }
+          .review-card {
+            padding: 25px;
+          }
+          .review-text {
+            font-size: 0.9rem;
+          }
+          .author-img {
+            width: 40px;
+            height: 40px;
+          }
+          .author-meta h4 {
+            font-size: 0.9rem;
+          }
+          .author-meta span {
+            font-size: 0.7rem;
+          }
         }
-        .dot.active {
-          background: var(--primary);
-          width: 20px;
-          border-radius: 10px;
+
+        @media (max-width: 480px) {
+          .review-card {
+            padding: 15px;
+          }
+          .quote-mark {
+            font-size: 3rem;
+          }
+          .review-text {
+            font-size: 0.8rem;
+          }
+          .author-img {
+            width: 35px;
+            height: 35px;
+          }
+          .author-meta h4 {
+            font-size: 0.8rem;
+          }
+          .author-meta span {
+            font-size: 0.65rem;
+          }
         }
       `}</style>
     </section>

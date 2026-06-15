@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const screenshots = [
   {
@@ -8,28 +8,70 @@ const screenshots = [
     desc: 'All features at your fingertips',
   },
   {
-    img: '/assets/images/app_screen.jpg',
+    img: '/assets/images/app_screens/by_starting_letter.jpg',
     title: 'Browse by Letter',
     desc: 'Explore names from A to Z',
   },
   {
-    img: '/assets/images/app_screen.jpg',
+    img: '/assets/images/app_screens/by_nakshatra.jpg',
     title: 'By Nakshatra',
     desc: "Find names based on your baby's nakshatra",
   },
   {
-    img: '/assets/images/app_screen.jpg',
+    img: '/assets/images/app_screens/name_details.jpg',
     title: 'Name Details',
-    desc: 'Meaning, Rashi, Gender & more',
+    desc: 'Meaning, Numerology score, Popularity, and more',
   },
   {
-    img: '/assets/images/app_screen.jpg',
+    img: '/assets/images/app_screens/polls.jpg',
     title: 'Create Polls',
     desc: 'Create polls and get opinions from loved ones',
+  },
+  {
+    img: '/assets/images/app_screens/trending_now.jpg',
+    title: 'Trending Now',
+    desc: 'Discover popular names in your area and across Tamil Nadu',
+  },
+  {
+    img: '/assets/images/app_screens/name_card.jpg',
+    title: 'Name Card',
+    desc: 'Share a beautiful name card with family and friends',
+  },
+  {
+    img: '/assets/images/app_screens/deity_names.jpg',
+    title: 'Deity Names',
+    desc: 'Explore names associated with different deities',
+  },
+  {
+    img: '/assets/images/app_screens/smart_filters.jpg',
+    title: 'Smart Filters',
+    desc: 'Find the perfect name with our intelligent filtering options',
   },
 ];
 
 const Screenshots = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollContainerRef = useRef(null);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (scrollContainerRef.current) {
+        const container = scrollContainerRef.current;
+        const scrollWidth = container.scrollWidth - container.clientWidth;
+        
+        // Only auto-scroll if there's overflow (slides don't all fit)
+        if (scrollWidth > 0) {
+          const slideWidth = 220 + 25; // max-width + gap
+          const newPosition = (scrollPosition + slideWidth) % (scrollWidth + slideWidth);
+          container.scrollLeft = newPosition;
+          setScrollPosition(newPosition);
+        }
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [scrollPosition]);
+
   return (
     <section id="screenshots" className="screenshots section-padding">
       <div className="container">
@@ -37,7 +79,7 @@ const Screenshots = () => {
         <div className="title-underline"></div>
 
         <div className="screens-container">
-          <div className="screens-wrapper">
+          <div className="screens-wrapper" ref={scrollContainerRef}>
             {screenshots.map((s, i) => (
               <div key={i} className="screen-item">
                 <div className="screen-mockup">
@@ -64,7 +106,7 @@ const Screenshots = () => {
           width: 40px;
           height: 3px;
           background: var(--primary);
-          margin: -35px auto 60px;
+          margin: -35px auto 45px;
           border-radius: 2px;
         }
         .screens-container {
@@ -150,6 +192,38 @@ const Screenshots = () => {
           }
           .screens-wrapper {
             justify-content: flex-start;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .screen-item {
+            min-width: 160px;
+            max-width: 180px;
+          }
+          .screen-mockup img {
+            height: 300px;
+          }
+          .screen-item h3 {
+            font-size: 0.95rem;
+          }
+          .screen-item p {
+            font-size: 0.75rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .screen-item {
+            min-width: 140px;
+            max-width: 160px;
+          }
+          .screen-mockup img {
+            height: 250px;
+          }
+          .screen-item h3 {
+            font-size: 0.85rem;
+          }
+          .screen-item p {
+            font-size: 0.7rem;
           }
         }
       `}</style>

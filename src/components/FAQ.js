@@ -65,8 +65,8 @@ const FAQ = () => {
         .faq-item {
           background: white;
           border-radius: 15px;
-          margin-bottom: 15px;
-          padding: 20px 30px;
+          margin-bottom: 12px;
+          padding: 18px 25px;
           cursor: pointer;
           transition: all 0.3s ease;
           border: 1px solid #f0f0f0;
@@ -86,14 +86,43 @@ const FAQ = () => {
           color: var(--secondary);
         }
         .faq-answer {
-          margin-top: 15px;
-          padding-top: 15px;
+          margin-top: 12px;
+          padding-top: 12px;
           border-top: 1px solid #f8f8f8;
         }
         .faq-answer p {
           color: var(--text-muted);
           line-height: 1.6;
           font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+          .faq-item {
+            padding: 15px 20px;
+            margin-bottom: 12px;
+          }
+          .faq-question h3 {
+            font-size: 0.95rem;
+          }
+          .faq-answer p {
+            font-size: 0.9rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .faq-list {
+            max-width: 100%;
+          }
+          .faq-item {
+            padding: 12px 15px;
+            border-radius: 12px;
+          }
+          .faq-question h3 {
+            font-size: 0.85rem;
+          }
+          .faq-answer p {
+            font-size: 0.8rem;
+          }
         }
       `}</style>
     </section>

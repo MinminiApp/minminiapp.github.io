@@ -23,12 +23,6 @@ const CTA = () => {
                     alt="Google Play"
                   />
                 </a>
-                <a href="#" className="store-link">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
-                    alt="App Store"
-                  />
-                </a>
               </div>
               <div className="qr-code">
                 {/* Placeholder for QR Code */}
@@ -44,25 +38,25 @@ const CTA = () => {
 
       <style jsx>{`
         .cta {
-          padding-top: 40px;
-          padding-bottom: 60px;
+          padding-top: 35px;
+          padding-bottom: 50px;
         }
         .cta-card {
           background: #fff8fa;
           border-radius: 30px;
-          padding: 40px 60px;
+          padding: 35px 50px;
           border: 1px solid #ffe4ed;
         }
         .cta-content {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          gap: 40px;
+          gap: 30px;
         }
         .cta-logo-section {
           display: flex;
           align-items: center;
-          gap: 30px;
+          gap: 25px;
           flex: 1;
         }
         .cta-logo {
@@ -120,12 +114,45 @@ const CTA = () => {
             flex-direction: row;
           }
         }
+
+        @media (max-width: 768px) {
+          .cta-card {
+            border-radius: 20px;
+            padding: 30px 20px;
+          }
+          .cta-text h3 {
+            font-size: 1.4rem;
+          }
+          .store-link img {
+            height: 35px;
+          }
+          .qr-code img {
+            width: 80px;
+            height: 80px;
+          }
+        }
+
         @media (max-width: 600px) {
           .cta-card {
-            padding: 40px 20px;
+            padding: 25px 15px;
+          }
+          .cta-text h3 {
+            font-size: 1.1rem;
+          }
+          .cta-text p {
+            font-size: 0.9rem;
           }
           .store-btns {
             flex-direction: column;
+            width: 100%;
+          }
+          .store-link img {
+            height: 30px;
+            width: 100%;
+          }
+          .qr-code img {
+            width: 70px;
+            height: 70px;
           }
         }
       `}</style>

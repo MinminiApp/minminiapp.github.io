@@ -1,18 +1,21 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 import { Download } from 'lucide-react';
 
 const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="container flex-between">
-        <div className="logo flex-center">
-          <img src="/assets/images/logo.png" alt="Minmini Logo" width={40} height={40} />
-          <div className="logo-text">
-            <span className="brand-name">Minmini</span>
-            <span className="brand-sub">Tamil Baby Names</span>
+        <Link href="/">
+          <div className="logo flex-center">
+            <img src="/assets/images/logo.png" alt="Minmini Logo" width={40} height={40} />
+            <div className="logo-text">
+              <span className="brand-name">Minmini</span>
+              <span className="brand-sub">Tamil Baby Names</span>
+            </div>
           </div>
-        </div>
+        </Link>
 
         <ul className="nav-links">
           <li>
@@ -88,8 +91,39 @@ const Navbar = () => {
           color: var(--primary);
         }
         @media (max-width: 768px) {
+          .navbar {
+            padding: 15px 0;
+          }
+          .brand-name {
+            font-size: 1.2rem;
+          }
+          .brand-sub {
+            font-size: 0.7rem;
+          }
           .nav-links {
             display: none;
+          }
+          .btn-primary {
+            padding: 8px 16px;
+            font-size: 0.8rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .navbar {
+            padding: 12px 0;
+          }
+          .logo img {
+            width: 32px;
+            height: 32px;
+          }
+          .brand-name {
+            font-size: 1rem;
+          }
+          .btn-primary {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            gap: 4px;
           }
         }
       `}</style>

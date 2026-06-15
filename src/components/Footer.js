@@ -1,6 +1,7 @@
 'use client';
+import Link from 'next/link';
 import React from 'react';
-import { Facebook, Instagram, Youtube, Twitter } from 'lucide-react';
+import { Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -49,7 +50,7 @@ const Footer = () => {
                 <a href="#">Contact Us</a>
               </li>
               <li>
-                <a href="#">Privacy Policy</a>
+                <Link href="/privacy-policy">Privacy Policy</Link>
               </li>
               <li>
                 <a href="#">Terms of Use</a>
@@ -66,18 +67,12 @@ const Footer = () => {
               <a href="#" className="social-icon ig">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="social-icon yt">
-                <Youtube size={20} />
-              </a>
-              <a href="#" className="social-icon tw">
-                <Twitter size={20} />
-              </a>
             </div>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>© 2025 Minmini. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Minmini. All rights reserved.</p>
         </div>
       </div>
 
@@ -185,9 +180,54 @@ const Footer = () => {
             grid-template-columns: 1fr 1fr;
           }
         }
+
+        @media (max-width: 768px) {
+          .footer {
+            padding: 60px 0 20px;
+          }
+          .footer-grid {
+            gap: 30px;
+            margin-bottom: 40px;
+          }
+          .footer-links h4,
+          .footer-social h4 {
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+          }
+          .footer-links a,
+          .footer-desc {
+            font-size: 0.8rem;
+          }
+          .social-icons {
+            gap: 8px;
+          }
+          .social-icon {
+            width: 32px;
+            height: 32px;
+          }
+        }
+
         @media (max-width: 600px) {
+          .footer {
+            padding: 40px 0 15px;
+          }
           .footer-grid {
             grid-template-columns: 1fr;
+            gap: 20px;
+          }
+          .footer-desc {
+            max-width: 100%;
+          }
+          .footer-links h4,
+          .footer-social h4 {
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+          }
+          .footer-links ul {
+            gap: 8px;
+          }
+          .footer-bottom p {
+            font-size: 0.75rem;
           }
         }
       `}</style>

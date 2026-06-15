@@ -37,7 +37,7 @@ const Stats = () => {
       </div>
       <style jsx>{`
         .stats-container {
-          padding: 60px 0;
+          padding: 45px 0;
           background: #fff;
           border-top: 1px solid #f8f8f8;
           border-bottom: 1px solid #f8f8f8;
@@ -78,9 +78,38 @@ const Stats = () => {
             gap: 40px;
           }
         }
+
+        @media (max-width: 768px) {
+          .stats-container {
+            padding: 30px 0;
+          }
+          .stats-grid {
+            gap: 30px;
+          }
+          .stat-info h3 {
+            font-size: 1.2rem;
+          }
+          .stat-info p {
+            font-size: 0.8rem;
+          }
+        }
+
         @media (max-width: 480px) {
+          .stats-container {
+            padding: 20px 0;
+          }
           .stats-grid {
             grid-template-columns: 1fr;
+            gap: 20px;
+          }
+          .stat-item {
+            justify-content: flex-start;
+          }
+          .stat-info h3 {
+            font-size: 1rem;
+          }
+          .stat-info p {
+            font-size: 0.75rem;
           }
         }
       `}</style>

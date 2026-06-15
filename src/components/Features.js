@@ -39,7 +39,7 @@ const Features = () => {
   return (
     <section id="features" className="features section-padding">
       <div className="container">
-        <div className="section-subtitle">✨ Everything You Need in One App ✨</div>
+        <div className="section-subtitle">❤️ Everything You Need in One App ❤️</div>
 
         <div className="grid-cols-3">
           {features.map((f, i) => (
@@ -106,6 +106,39 @@ const Features = () => {
         }
         :global(.icon-private) {
           color: #ffc107;
+        }
+
+        @media (max-width: 768px) {
+          .feature-card {
+            padding: 20px;
+          }
+          .icon-box {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 15px;
+          }
+          .feature-card h3 {
+            font-size: 1rem;
+          }
+          .feature-card p {
+            font-size: 0.85rem;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .feature-card {
+            padding: 15px;
+          }
+          .icon-box {
+            width: 45px;
+            height: 45px;
+          }
+          .feature-card h3 {
+            font-size: 0.9rem;
+          }
+          .feature-card p {
+            font-size: 0.75rem;
+          }
         }
       `}</style>
     </section>

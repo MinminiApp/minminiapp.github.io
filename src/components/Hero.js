@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Apple, Play } from 'lucide-react';
+import { Play } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -16,27 +16,17 @@ const Hero = () => {
           </p>
 
           <div className="hero-btns">
-            <button className="btn-primary">
-              <img
-                src="/assets/images/logo.png"
-                alt=""
-                width={20}
-                style={{ filter: 'brightness(0) invert(1)' }}
-              />
+            <button className="btn-primary">  
               Download for Android
-            </button>
-            <button className="btn-outline">
-              <Apple size={20} />
-              Download on App Store
             </button>
           </div>
 
           <div className="loved-by">
             <div className="avatar-group">
-              <img src="https://i.pravatar.cc/40?img=1" alt="user" />
-              <img src="https://i.pravatar.cc/40?img=2" alt="user" />
-              <img src="https://i.pravatar.cc/40?img=3" alt="user" />
-              <img src="https://i.pravatar.cc/40?img=4" alt="user" />
+              <img src="/assets/images/avatars/avatar_1.png" alt="avatar" />
+              <img src="/assets/images/avatars/avatar_2.png" alt="avatar" />
+              <img src="/assets/images/avatars/avatar_3.png" alt="avatar" />
+              <img src="/assets/images/avatars/avatar_4.png" alt="avatar" />
             </div>
             <p>Loved by 50,000+ parents ❤️</p>
           </div>
@@ -46,11 +36,6 @@ const Hero = () => {
           <div className="baby-bg">
             <img src="/assets/images/baby.png" alt="Baby" className="baby-img" />
           </div>
-          <div className="phone-mockup">
-            <img src="/assets/images/app_screen.jpg" alt="App Mockup" className="mockup-img" />
-          </div>
-          <div className="sparkle s1">✨</div>
-          <div className="sparkle s2">✨</div>
         </div>
       </div>
 
@@ -116,10 +101,10 @@ const Hero = () => {
           align-items: center;
         }
         .baby-bg {
-          width: 400px;
-          height: 400px;
+          width: 450px;
+          height: 450px;
           background: #fff0f5;
-          border-radius: 50%;
+          border-radius: 0;
           position: absolute;
           top: 20px;
           right: 0;
@@ -184,14 +169,77 @@ const Hero = () => {
             margin: 0 auto;
             top: 0;
             right: 0;
+            width: 300px;
+            height: 300px;
           }
           .phone-mockup {
             left: 50%;
             transform: translateX(-50%);
             top: 100px;
+            width: 220px;
+            height: 440px;
           }
           h1 {
             font-size: 2.8rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero {
+            padding: 40px 0 60px;
+          }
+          h1 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+          }
+          .description {
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+          }
+          .hero-btns {
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+          }
+          .btn-primary {
+            width: 100%;
+            justify-content: center;
+          }
+          .loved-by {
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+          }
+          .loved-by p {
+            font-size: 0.8rem;
+          }
+          .avatar-group img {
+            width: 28px;
+            height: 28px;
+            margin-left: -8px;
+          }
+          .hero-visual {
+            display: none;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero {
+            padding: 30px 0 40px;
+          }
+          h1 {
+            font-size: 1.6rem;
+            line-height: 1.2;
+          }
+          .description {
+            font-size: 0.85rem;
+            max-width: 100%;
+          }
+          .hero-visual {
+            display: none;
+          }
+          .sparkle {
+            font-size: 1.2rem;
           }
         }
       `}</style>

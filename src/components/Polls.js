@@ -11,14 +11,14 @@ const Polls = () => {
             <div className="polls-illustration">
               <div className="illustration-wrapper">
                 <img
-                  src="/assets/images/app_screen.jpg"
+                  src="/assets/images/friends_family.png"
                   alt="Polls Feature"
                   className="feature-img"
                 />
                 <div className="overlay-badge">
                   <div className="avatar-stack">
-                    <img src="https://i.pravatar.cc/40?img=10" alt="user" />
-                    <img src="https://i.pravatar.cc/40?img=11" alt="user" />
+                    <img src="/assets/images/avatars/avatar_3.png" alt="avatar" />
+                    <img src="/assets/images/avatars/avatar_4.png" alt="avatar" />
                     <div className="more-count">+5</div>
                   </div>
                 </div>
@@ -31,7 +31,7 @@ const Polls = () => {
                 <span>Social Voting</span>
               </div>
               <h2 className="section-title-left">
-                Get Opinions You Can Trust <span className="pink-heart">💖</span>
+                Get Opinions You Can Trust
               </h2>
               <p className="subtitle">
                 Create a poll, share with your family & friends, and choose the perfect name
@@ -77,10 +77,6 @@ const Polls = () => {
                   </div>
                 </div>
               </div>
-
-              <button className="btn-primary">
-                Try Polls Now <ChevronRight size={18} />
-              </button>
             </div>
           </div>
         </div>
@@ -93,13 +89,13 @@ const Polls = () => {
         .polls-card {
           background: #fff8fa;
           border-radius: 40px;
-          padding: 60px;
+          padding: 50px;
           border: 1px dashed var(--primary);
         }
         .polls-content {
           display: grid;
           grid-template-columns: 1fr 1.2fr;
-          gap: 80px;
+          gap: 60px;
           align-items: center;
         }
         .illustration-wrapper {
@@ -233,6 +229,59 @@ const Polls = () => {
           }
           .polls-card {
             padding: 40px 20px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .polls-card {
+            padding: 35px 15px;
+            border-radius: 25px;
+          }
+          .section-title-left {
+            font-size: 1.8rem;
+          }
+          .subtitle {
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+          }
+          .workflow {
+            margin-bottom: 30px;
+          }
+          .step-info h4 {
+            font-size: 0.85rem;
+          }
+          .step-info p {
+            font-size: 0.7rem;
+          }
+          .overlay-badge {
+            bottom: -15px;
+            right: -15px;
+            padding: 8px 15px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .polls-card {
+            padding: 20px 10px;
+            border-radius: 20px;
+          }
+          .section-title-left {
+            font-size: 1.4rem;
+          }
+          .subtitle {
+            font-size: 0.85rem;
+          }
+          .badge-pill {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+          }
+          .step-icon {
+            width: 36px;
+            height: 36px;
+          }
+          .overlay-badge {
+            bottom: -10px;
+            right: -10px;
           }
         }
       `}</style>
