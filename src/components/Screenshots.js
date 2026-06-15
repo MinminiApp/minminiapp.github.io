@@ -58,7 +58,7 @@ const Screenshots = () => {
       if (scrollContainerRef.current) {
         const container = scrollContainerRef.current;
         const scrollWidth = container.scrollWidth - container.clientWidth;
-        
+
         // Only auto-scroll if there's overflow (slides don't all fit)
         if (scrollWidth > 0) {
           const slideWidth = 220 + 25; // max-width + gap
@@ -125,14 +125,14 @@ const Screenshots = () => {
           display: none;
         }
         .screen-item {
-          min-width: 200px;
+          min-width: 280px;
           flex: 1;
-          max-width: 220px;
+          max-width: 300px;
         }
         .screen-mockup {
-          background: white;
+          background: black;
           border-radius: 25px;
-          padding: 8px;
+          padding: 4px;
           box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
           margin-bottom: 25px;
           border: 1px solid #f0f0f0;
@@ -145,7 +145,7 @@ const Screenshots = () => {
           width: 100%;
           border-radius: 20px;
           display: block;
-          height: 400px;
+          height: 580px;
           object-fit: cover;
         }
         .screen-item h3 {
@@ -197,11 +197,11 @@ const Screenshots = () => {
 
         @media (max-width: 768px) {
           .screen-item {
-            min-width: 160px;
-            max-width: 180px;
+            min-width: 200px;
+            max-width: 220px;
           }
           .screen-mockup img {
-            height: 300px;
+            height: 420px;
           }
           .screen-item h3 {
             font-size: 0.95rem;
@@ -213,11 +213,11 @@ const Screenshots = () => {
 
         @media (max-width: 480px) {
           .screen-item {
-            min-width: 140px;
-            max-width: 160px;
+            min-width: 200px;
+            max-width: 220px;
           }
           .screen-mockup img {
-            height: 250px;
+            height: 420px;
           }
           .screen-item h3 {
             font-size: 0.85rem;

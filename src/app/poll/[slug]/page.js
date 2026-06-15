@@ -14,8 +14,12 @@ export function generateStaticParams() {
 
 export const metadata = {
   title: 'Minmini Poll',
-  description:
-    'Vote for your favorite baby name and see live results instantly.',
+  description: 'Vote for your favorite baby name and see live results instantly.',
+  icons: {
+    icon: '/assets/images/favicon.png',
+    shortcut: '/assets/images/favicon.png',
+    apple: '/assets/images/favicon.png',
+  },
   openGraph: {
     images: [
       {
@@ -28,9 +32,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    images: [
-      'https://minminii.app/assets/images/poll_screen.png',
-    ],
+    images: ['https://minminii.app/assets/images/poll_screen.png'],
   },
 };
 

@@ -37,7 +37,15 @@ const Navbar = () => {
           </li>
         </ul>
 
-        <button className="btn-primary">
+        <button
+          className="btn-primary"
+          onClick={() =>
+            window.open(
+              'https://play.google.com/store/apps/details?id=com.minmini.tamilnames&referrer=utm_source%3Dminmini.app%26utm_medium%3Dwebsite',
+              '_blank'
+            )
+          }
+        >
           <Download size={18} />
           Download App
         </button>
@@ -46,7 +54,9 @@ const Navbar = () => {
       <style jsx>{`
         .navbar {
           padding: 20px 0;
-          position: sticky;
+          position: fixed;
+          width: 100%;
+          left: 0;
           top: 0;
           background: white;
           z-index: 1000;

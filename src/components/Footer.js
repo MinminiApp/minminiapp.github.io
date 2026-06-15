@@ -64,7 +64,7 @@ const Footer = () => {
               <a href="#" className="social-icon fb">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="social-icon ig">
+              <a href="https://www.instagram.com/minmini.app" className="social-icon ig">
                 <Instagram size={20} />
               </a>
             </div>

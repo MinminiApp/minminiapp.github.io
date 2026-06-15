@@ -16,7 +16,7 @@ const PollClient = ({ slug: initialSlug }) => {
   const [loading, setLoading] = useState(true);
   const [pollData, setPollData] = useState(null);
   const [voterToken, setVoterToken] = useState('');
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [isVoting, setIsVoting] = useState(false);
   const [voterName, setVoterName] = useState('');
   const [errorMsg, setErrorMsg] = useState(null);
@@ -71,10 +71,8 @@ const PollClient = ({ slug: initialSlug }) => {
         setPollData(data);
         setVoterName(data.voter_name || '');
         // Pre-select if already voted
-        const alreadySelected = data.options.find((o) => o.selected);
-        if (alreadySelected) {
-          setSelectedOption(alreadySelected.option_id);
-        }
+        const alreadySelectedIds = data.options.filter((o) => o.selected).map((o) => o.option_id);
+        setSelectedOptions(alreadySelectedIds);
       } else {
         setErrorMsg(data.message || 'Unable to load poll data.');
       }
@@ -86,13 +84,26 @@ const PollClient = ({ slug: initialSlug }) => {
     }
   };
 
+  const handleOptionClick = (optionId) => {
+    const { poll, has_voted } = pollData;
+    if (has_voted || isExpired) return;
+
+    if (poll.allow_multiple_votes) {
+      setSelectedOptions((prev) =>
+        prev.includes(optionId) ? prev.filter((id) => id !== optionId) : [...prev, optionId]
+      );
+    } else {
+      setSelectedOptions([optionId]);
+    }
+  };
+
   const handleVote = async () => {
     if (!voterName.trim()) {
       setErrorMsg('Please enter your name to cast your vote.');
       return;
     }
 
-    if (!selectedOption || isVoting || pollData?.has_voted) return;
+    if (selectedOptions.length === 0 || isVoting || pollData?.has_voted) return;
 
     setIsVoting(true);
     try {
@@ -105,7 +116,7 @@ const PollClient = ({ slug: initialSlug }) => {
             'x-voter-token': voterToken,
           },
           body: JSON.stringify({
-            option_ids: [selectedOption],
+            option_ids: selectedOptions,
             voter_name: voterName.trim(),
           }),
         }
@@ -238,7 +249,15 @@ const PollClient = ({ slug: initialSlug }) => {
               <br />
               Tamil baby names
             </span>
-            <button className="btn-download-app">
+            <button
+              className="btn-download-app"
+              onClick={() =>
+                window.open(
+                  'https://play.google.com/store/apps/details?id=com.minmini.tamilnames&referrer=utm_source%3Dminmini.app/poll%26utm_medium%3Dwebsite',
+                  '_blank'
+                )
+              }
+            >
               <Download size={16} className="dl-icon" /> Download App
             </button>
           </div>
@@ -255,20 +274,27 @@ const PollClient = ({ slug: initialSlug }) => {
               <h1>{poll.title}</h1>
               <div className="meta-row">
                 <span>
-                  {expiryDays === null ? 'No expiry' :
-                   expiryDays > 0 ? `Ends in ${expiryDays}d` :
-                   expiryDays === 0 ? 'Ends today' : 'Expired'}
+                  {expiryDays === null
+                    ? 'No expiry'
+                    : expiryDays > 0
+                      ? `Ends in ${expiryDays}d`
+                      : expiryDays === 0
+                        ? 'Ends today'
+                        : 'Expired'}
                 </span>
                 <span className="separator">•</span>
                 <span>Created by {created_by}</span>
               </div>
             </div>
             <div className={`active-badge ${isExpired ? 'expired' : ''}`}>
-              <span className={`badge-dot ${isExpired ? 'expired-dot' : ''}`}></span> {isExpired ? 'Expired' : 'Active'}
+              <span className={`badge-dot ${isExpired ? 'expired-dot' : ''}`}></span>{' '}
+              {isExpired ? 'Expired' : 'Active'}
             </div>
           </div>
 
-          <p className="help-text">{poll.description || 'Help us choose the perfect name for our little one! ❤️'}</p>
+          <p className="help-text">
+            {poll.description || 'Help us choose the perfect name for our little one! ❤️'}
+          </p>
 
           <div className="form-group">
             <label className="input-label">
@@ -285,56 +311,80 @@ const PollClient = ({ slug: initialSlug }) => {
           </div>
 
           <p className="instruction-text">
-            {isExpired ? 'Voting has ended for this poll' : 'Tap to vote for your favorite name ✨'}
+            {isExpired
+              ? 'Voting has ended for this poll'
+              : poll.allow_multiple_votes
+                ? 'Choose all the names you truly love'
+                : 'Pick the one name that feels just right'}
           </p>
 
           <div className="options-container">
-            {options.map((option, index) => (
-              <div
-                key={option.option_id}
-                className={`option-card ${selectedOption === option.option_id ? 'active' : ''} ${has_voted || isExpired ? 'disabled' : ''}`}
-                onClick={() => !has_voted && !isExpired && setSelectedOption(option.option_id)}
-              >
-                <div className="option-content">
-                  <div
-                    className="option-icon"
-                    style={{
-                      backgroundColor: `${getOptionColor(index)}10`,
-                      color: getOptionColor(index),
-                    }}
-                  >
-                    {getOptionIcon(index)}
-                  </div>
-                  <div className="option-names">
-                    <span className="tamil-name">{option.item_type == 'twin' ? option.data.twin_names_ta.join(' & ') : option.data.name_ta}</span>
-                    <span className="english-name">{option.item_type == 'twin' ? normalizeName(option.data.twin_names_en.join(' & ')) : normalizeName(option.data.name_en)}</span>
-                  </div>
-                </div>
-
-                {has_voted ? (
-                  <div className="vote-stats">
-                    <div className="progress-bg">
+            {options.map((option, index) => {
+              const isSelected = selectedOptions.includes(option.option_id);
+              return (
+                <div
+                  key={option.option_id}
+                  className={`option-card ${isSelected ? 'active' : ''} ${has_voted || isExpired ? 'disabled' : ''}`}
+                  onClick={() => handleOptionClick(option.option_id)}
+                >
+                  <div className="option-header">
+                    <div className="option-content">
                       <div
-                        className="progress-bar"
+                        className="option-icon"
                         style={{
-                          width: `${option.percentage}%`,
-                          backgroundColor: getOptionColor(index),
+                          backgroundColor: `${getOptionColor(index)}10`,
+                          color: getOptionColor(index),
                         }}
-                      ></div>
+                      >
+                        {getOptionIcon(index)}
+                      </div>
+                      <div className="option-names">
+                        <span className="tamil-name">
+                          {option.item_type == 'twin'
+                            ? option.data.twin_names_ta.join(' & ')
+                            : option.data.name_ta}
+                        </span>
+                        <span className="english-name">
+                          {option.item_type == 'twin'
+                            ? normalizeName(option.data.twin_names_en.join(' & '))
+                            : normalizeName(option.data.name_en)}
+                        </span>
+                      </div>
                     </div>
-                    <span className="percentage-text">{option.percentage}%</span>
+
+                    {!has_voted && (
+                      <div className={poll.allow_multiple_votes ? 'checkbox-outer' : 'radio-outer'}>
+                        {isSelected &&
+                          (poll.allow_multiple_votes ? (
+                            <CheckCircle2 size={16} color="white" />
+                          ) : (
+                            <div className="radio-inner"></div>
+                          ))}
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div className="radio-outer">
-                    {selectedOption === option.option_id && <div className="radio-inner"></div>}
-                  </div>
-                )}
-              </div>
-            ))}
+
+                  {has_voted && (
+                    <div className="vote-stats">
+                      <div className="progress-bg">
+                        <div
+                          className="progress-bar"
+                          style={{
+                            width: `${option.percentage}%`,
+                            backgroundColor: getOptionColor(index),
+                          }}
+                        ></div>
+                      </div>
+                      <span className="percentage-text">{option.percentage}%</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           <button
-            className={`btn-cast-vote ${!selectedOption || !voterName.trim() || has_voted || isVoting || isExpired ? 'btn-disabled' : ''}`}
+            className={`btn-cast-vote ${selectedOptions.length === 0 || !voterName.trim() || has_voted || isVoting || isExpired ? 'btn-disabled' : ''}`}
             onClick={handleVote}
           >
             {isVoting ? (
@@ -369,7 +419,15 @@ const PollClient = ({ slug: initialSlug }) => {
               </div>
             </div>
           </div>
-          <button className="btn-download-app-outline">
+          <button
+            className="btn-download-app-outline"
+            onClick={() =>
+              window.open(
+                'https://play.google.com/store/apps/details?id=com.minmini.tamilnames&referrer=utm_source%3Dminmini.app/poll%26utm_medium%3Dwebsite',
+                '_blank'
+              )
+            }
+          >
             <Download size={14} className="dl-icon-small" /> Download App
           </button>
         </div>
@@ -605,13 +663,20 @@ const PollClient = ({ slug: initialSlug }) => {
         }
         .option-card {
           display: flex;
-          align-items: center;
-          justify-content: space-between;
+          flex-direction: column;
+          align-items: stretch;
           padding: 18px 22px;
           border: 1px solid #f5f5f5;
           border-radius: 20px;
           cursor: pointer;
           transition: all 0.2s;
+          gap: 12px;
+        }
+        .option-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
         }
         .option-card:hover:not(.disabled) {
           border-color: #ff4d8d;
@@ -665,7 +730,21 @@ const PollClient = ({ slug: initialSlug }) => {
           justify-content: center;
           transition: all 0.2s;
         }
+        .checkbox-outer {
+          width: 24px;
+          height: 24px;
+          border: 2px solid #e0e0e0;
+          border-radius: 6px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s;
+        }
         .option-card.active .radio-outer {
+          border-color: #ff4d8d;
+        }
+        .option-card.active .checkbox-outer {
+          background: #ff4d8d;
           border-color: #ff4d8d;
         }
         .radio-inner {
@@ -676,8 +755,7 @@ const PollClient = ({ slug: initialSlug }) => {
         }
 
         .vote-stats {
-          flex: 1;
-          margin-left: 20px;
+          width: 100%;
           display: flex;
           align-items: center;
           gap: 15px;
@@ -1073,7 +1151,7 @@ const PollClient = ({ slug: initialSlug }) => {
           }
 
           .vote-stats {
-            margin-left: 12px;
+            margin-left: 0;
             gap: 10px;
           }
           .progress-bg {

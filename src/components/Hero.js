@@ -16,7 +16,16 @@ const Hero = () => {
           </p>
 
           <div className="hero-btns">
-            <button className="btn-primary">  
+            <button
+              className="btn-primary"
+              onClick={() =>
+                window.open(
+                  'https://play.google.com/store/apps/details?id=com.minmini.tamilnames&referrer=utm_source%3Dminmini.app%26utm_medium%3Dwebsite',
+                  '_blank'
+                )
+              }
+            >
+              <Play size={18} />
               Download for Android
             </button>
           </div>
@@ -41,7 +50,7 @@ const Hero = () => {
 
       <style jsx>{`
         .hero {
-          padding: 60px 0 100px;
+          padding: 30px 0 40px;
           background-color: var(--white);
           position: relative;
         }
@@ -101,8 +110,7 @@ const Hero = () => {
           align-items: center;
         }
         .baby-bg {
-          width: 450px;
-          height: 450px;
+          height: 500px;
           background: #fff0f5;
           border-radius: 0;
           position: absolute;
@@ -182,12 +190,12 @@ const Hero = () => {
           h1 {
             font-size: 2.8rem;
           }
+          .hero-visual {
+            display: none;
+          }
         }
 
         @media (max-width: 768px) {
-          .hero {
-            padding: 40px 0 60px;
-          }
           h1 {
             font-size: 2rem;
             margin-bottom: 16px;
@@ -224,9 +232,6 @@ const Hero = () => {
         }
 
         @media (max-width: 480px) {
-          .hero {
-            padding: 30px 0 40px;
-          }
           h1 {
             font-size: 1.6rem;
             line-height: 1.2;

@@ -30,9 +30,7 @@ const Polls = () => {
                 <span className="badge-icon">👥</span>
                 <span>Social Voting</span>
               </div>
-              <h2 className="section-title-left">
-                Get Opinions You Can Trust
-              </h2>
+              <h2 className="section-title-left">Get Opinions You Can Trust</h2>
               <p className="subtitle">
                 Create a poll, share with your family & friends, and choose the perfect name
                 together.

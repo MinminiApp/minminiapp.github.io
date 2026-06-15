@@ -3,7 +3,8 @@ import Footer from '@/components/Footer';
 
 export const metadata = {
   title: 'Privacy Policy | Minmini',
-  description: 'Learn how Minmini handles Google Sign-In, Firebase Analytics, and notification permissions for the Tamil baby names app.',
+  description:
+    'Learn how Minmini handles Google Sign-In, Firebase Analytics, and notification permissions for the Tamil baby names app.',
 };
 
 export default function PrivacyPolicy() {
@@ -17,8 +18,8 @@ export default function PrivacyPolicy() {
             <h1 className="section-title">How we protect your privacy</h1>
             <p className="section-description">
               Minmini is an Android app on Google Play Store for Tamil baby names, meaning, and
-              nakshatra guidance. This policy explains how we use Google Sign-In, Firebase Analytics,
-              Google AdMob ads, notifications, and birth details in the app.
+              nakshatra guidance. This policy explains how we use Google Sign-In, Firebase
+              Analytics, Google AdMob ads, notifications, and birth details in the app.
             </p>
           </div>
 
@@ -30,16 +31,16 @@ export default function PrivacyPolicy() {
             </p>
             <ul className="policy-list">
               <li>
-                <strong>Google Sign-In:</strong> your basic profile information such as name and email
-                address to authenticate your account and sync preferences.
+                <strong>Google Sign-In:</strong> your basic profile information such as name and
+                email address to authenticate your account and sync preferences.
               </li>
               <li>
                 <strong>Firebase Analytics:</strong> anonymous usage data such as screen views,
                 feature usage, and app performance to make Minmini better.
               </li>
               <li>
-                <strong>Google AdMob:</strong> ad identifiers and interactions to show relevant
-                ads. Ads are managed through Google AdMob and are used only to support the app.
+                <strong>Google AdMob:</strong> ad identifiers and interactions to show relevant ads.
+                Ads are managed through Google AdMob and are used only to support the app.
               </li>
               <li>
                 <strong>Notification permission:</strong> optional permission for reminders,
@@ -80,8 +81,8 @@ export default function PrivacyPolicy() {
               this information to create a personal profile for sale.
             </p>
             <p>
-              You may see personalized ads based on your app activity, and you can manage ad settings
-              through Google’s privacy controls.
+              You may see personalized ads based on your app activity, and you can manage ad
+              settings through Google’s privacy controls.
             </p>
           </div>
 

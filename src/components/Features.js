@@ -37,7 +37,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section id="features" className="features section-padding">
+    <section id="features" className="features">
       <div className="container">
         <div className="section-subtitle">❤️ Everything You Need in One App ❤️</div>
 

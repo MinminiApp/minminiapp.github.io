@@ -17,7 +17,11 @@ const CTA = () => {
 
             <div className="cta-actions">
               <div className="store-btns">
-                <a href="#" className="store-link">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.minmini.tamilnames&referrer=utm_source%3Dminmini.app%26utm_medium%3Dwebsite"
+                  target="_blank"
+                  className="store-link"
+                >
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                     alt="Google Play"
@@ -25,9 +29,8 @@ const CTA = () => {
                 </a>
               </div>
               <div className="qr-code">
-                {/* Placeholder for QR Code */}
                 <img
-                  src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://minmini.app"
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://play.google.com/store/apps/details?id=com.minmini.tamilnames&referrer=utm_source%3Dminmini.app%26utm_medium%3Dwebsite"
                   alt="QR Code"
                 />
               </div>
